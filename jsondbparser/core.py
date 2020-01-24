@@ -1,5 +1,4 @@
 import json
-import os
 
 class parser:
 	def __init__(self, file, encoding = 'utf-8', debug = False):
