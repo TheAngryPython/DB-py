@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: jsondbparser
-Version: 1.1.5
+Version: 1.2
 Summary: Json-based configuration parser, similar to configparser
 Home-page: https://github.com/TheAngryPython/DB-py
 Author: Ternowoi Egor
