@@ -1,6 +1,5 @@
 # JSON config parser
 Json-based configuration parser, similar to configparser
-[Download](https://github.com/TheAngryPython/DB-py/blob/master/db.py)
 
 ## Install
 ```
@@ -9,8 +8,8 @@ pip install jsondbparser
 
 ## Use
 ```python
-import jsondbparser
-db = jsondbparser.parser('file.txt', encoding = 'utf-8', debug = False)
+from jsondbparser import core as parser
+db = parser.parser('file.txt', encoding = 'utf-8', debug = False)
 
 db.add_section('section')
 # adds section
@@ -27,7 +26,7 @@ db.get_section('section')
 db.js()
 # returns full json
 
-db.save(file = 'file1.txt')
+db.save()
 # save db to file
 
 ```

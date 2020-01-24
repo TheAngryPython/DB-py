@@ -1,6 +1,0 @@
-README.md
-setup.py
-jsondbparser_TheAngryPython.egg-info/PKG-INFO
-jsondbparser_TheAngryPython.egg-info/SOURCES.txt
-jsondbparser_TheAngryPython.egg-info/dependency_links.txt
-jsondbparser_TheAngryPython.egg-info/top_level.txt

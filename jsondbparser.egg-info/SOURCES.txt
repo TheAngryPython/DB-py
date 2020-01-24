@@ -1,0 +1,8 @@
+README.md
+setup.py
+jsondbparser/__init__.py
+jsondbparser/core.py
+jsondbparser.egg-info/PKG-INFO
+jsondbparser.egg-info/SOURCES.txt
+jsondbparser.egg-info/dependency_links.txt
+jsondbparser.egg-info/top_level.txt
