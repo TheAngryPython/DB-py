@@ -9,7 +9,7 @@ pip install jsondbparser
 
 ## Use
 ```python
-import db
+import jsondbparser	as db
 db = db.parser('file.txt', encoding = 'utf-8', debug = False)
 
 db.add_section('section')
