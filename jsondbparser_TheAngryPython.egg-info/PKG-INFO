@@ -1,0 +1,48 @@
+Metadata-Version: 2.1
+Name: jsondbparser-TheAngryPython
+Version: 1
+Summary: Json-based configuration parser, similar to configparser
+Home-page: https://github.com/TheAngryPython/DB-py
+Author: Ternowoi Egor
+Author-email: annom2017@mail.ru
+License: UNKNOWN
+Description: # JSON config parser
+        Json-based configuration parser, similar to configparser
+        [Download](https://github.com/TheAngryPython/DB-py/blob/master/db.py)
+        
+        ## Install
+        ```
+        pip install jsondbparser
+        ```
+        
+        ## Use
+        ```python
+        import db
+        db = db.parser('file.txt', encoding = 'utf-8', debug = False)
+        
+        db.add_section('section')
+        # adds section
+        
+        db.set('section', 'name', 'value')
+        # changes or adds value
+        
+        db.get('section', 'name')
+        # returns 'value'
+        
+        db.get_section('section')
+        # returns json section
+        
+        db.js()
+        # returns full json
+        
+        db.save(file = 'file1.txt')
+        # save db to file
+        
+        ```
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
