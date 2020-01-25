@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: jsondbparser
-Version: 1.2.1
+Version: 2.1
 Summary: Json-based configuration parser, similar to configparser
 Home-page: https://github.com/TheAngryPython/DB-py
 Author: Ternowoi Egor
@@ -17,6 +17,7 @@ Description: # JSON config parser
         ## Use
         ```python
         from jsondbparser import core as parser
+        
         db = parser.parser('file.txt', encoding = 'utf-8', debug = False)
         
         db.add_section('section')
@@ -38,13 +39,26 @@ Description: # JSON config parser
         # returns 'test'
         
         db.save()
-        # save db to file
+        # save db to file, return relative path
         
+        
+        from jsondbparser import convert
+        
+        convert.from_path('file.txt', str = False)
+        # convert config file to json, return json
+        
+        import ConfigParser
+        
+        config = ConfigParser.ConfigParser()
+        config.read('file.txt')
+        
+        convert.from_config(config, str = False)
+        # convert config to json, return json
         ```
         
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
-Requires-Python: >=2.8
+Requires-Python: >=3.6
 Description-Content-Type: text/markdown

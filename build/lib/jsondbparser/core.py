@@ -1,5 +1,4 @@
-import json
-import sys, codecs
+import json, sys, codecs
 
 class parser:
 	def __init__(self, file, encoding = 'utf-8', debug = False):
@@ -50,7 +49,7 @@ class parser:
 		return self.js[section][name]
 
 	def get_section(self, section):
-		return js[section]
+		return self.js[section]
 
 	def js(self):
 		return self.js

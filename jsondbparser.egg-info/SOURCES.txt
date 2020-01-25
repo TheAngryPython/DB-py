@@ -1,6 +1,7 @@
 README.md
 setup.py
 jsondbparser/__init__.py
+jsondbparser/convert.py
 jsondbparser/core.py
 jsondbparser.egg-info/PKG-INFO
 jsondbparser.egg-info/SOURCES.txt

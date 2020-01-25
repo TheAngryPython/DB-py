@@ -9,6 +9,7 @@ pip install jsondbparser
 ## Use
 ```python
 from jsondbparser import core as parser
+
 db = parser.parser('file.txt', encoding = 'utf-8', debug = False)
 
 db.add_section('section')
@@ -30,6 +31,19 @@ db['section']['name'] = 'test'
 # returns 'test'
 
 db.save()
-# save db to file
+# save db to file, return relative path
 
+
+from jsondbparser import convert
+
+convert.from_path('file.txt', str = False)
+# convert config file to json, return json
+
+import ConfigParser
+
+config = ConfigParser.ConfigParser()
+config.read('file.txt')
+
+convert.from_config(config, str = False)
+# convert config to json, return json
 ```
