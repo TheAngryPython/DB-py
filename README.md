@@ -23,8 +23,11 @@ db.get('section', 'name')
 db.get_section('section')
 # returns json section
 
-db.js()
-# returns full json
+db['section']['name']
+# returns 'value'
+
+db['section']['name'] = 'test'
+# returns 'test'
 
 db.save()
 # save db to file
