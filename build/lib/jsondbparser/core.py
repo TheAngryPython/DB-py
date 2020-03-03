@@ -1,9 +1,10 @@
-import json, sys, codecs
+import json, sys, codecs, os
 
 class parser:
-	def __init__(self, file, encoding = 'utf-8', debug = False):
-		self.file = codecs.open(file, 'r', encoding = encoding).read().replace('\n','')
-		if len(self.file) == 0:
+	def __init__(self, file, encoding = 'utf-8', debug = False, create = True, mode = 'r'):
+		if os.path.exists(file) and create:
+			self.file = codecs.open(file, mode, encoding = encoding).read().replace('\n','')
+		else:
 			self.file = codecs.open(file, 'w+', encoding = encoding).write('{}')
 		self.js = json.loads(self.file)
 		self.path = file
@@ -50,6 +51,11 @@ class parser:
 
 	def get_section(self, section):
 		return self.js[section]
+
+	def update(self, mode = 'r'):
+		self.save()
+		self.file = codecs.open(self.path, mode, encoding = self.encoding).read().replace('\n','')
+		return self.js
 
 	def js(self):
 		return self.js

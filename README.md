@@ -4,13 +4,14 @@ Json-based configuration parser, similar to configparser
 ## Install
 ```
 pip install jsondbparser
+pip install pycryptodome
 ```
 
 ## Use
 ```python
 from jsondbparser import core as parser
 
-db = parser.parser('file.txt', encoding = 'utf-8', debug = False)
+db = parser.parser('file.txt', encoding = 'utf-8', debug = False, create = True, mode = 'r')
 
 db.add_section('section')
 # adds section
@@ -29,6 +30,9 @@ db['section']['name']
 
 db['section']['name'] = 'test'
 # returns 'test'
+
+db.update(mode = 'r')
+# reloads db from file
 
 db.save()
 # save db to file, return relative path

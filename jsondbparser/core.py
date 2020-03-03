@@ -1,14 +1,33 @@
-import json, sys, codecs
+import json, sys, codecs, os
+from Crypto.Cipher import DES
+
+def pad(text):
+	text = text.encode()
+	while len(text) % 8 != 0:
+		text += b' '
+	return text
 
 class parser:
-	def __init__(self, file, encoding = 'utf-8', debug = False):
-		self.file = codecs.open(file, 'r', encoding = encoding).read().replace('\n','')
-		if len(self.file) == 0:
-			self.file = codecs.open(file, 'w+', encoding = encoding).write('{}')
+	def __init__(self, file, encoding = 'utf-8', debug = False, create = True, mode = 'r', encryption = False, key = 'abcdefgh'):
+		self.des = DES.new(key, DES.MODE_ECB)
+		if os.path.exists(file) and create:
+			if encryption:
+				self.file = self.des.decrypt(pad(codecs.open(file, mode, encoding = encoding).read().replace('\n','')))
+			else:
+				self.file = codecs.open(file, mode, encoding = encoding).read().replace('\n','')
+		else:
+			if encryption:
+				self.file = self.des.decrypt(pad(codecs.open(file, 'w+', encoding = encoding).write(pad(self.des.encrypt('{}')))))
+			else:
+				self.file = codecs.open(file, 'w+', encoding = encoding).write('{}')
+		print(self.file)
+		self.file = self.file.decode("utf-8")
 		self.js = json.loads(self.file)
 		self.path = file
 		self.encoding = encoding
 		self.debug = debug
+		self.key = key[0:8]
+		seld.encryption = encryption
 
 	def __setitem__(self, key, value):
 		self.js[key] = value
@@ -20,9 +39,15 @@ class parser:
 	def save(self):
 		file = self.path
 		if self.debug == True:
-			codecs.open(file, 'w', encoding = self.encoding).write(json.dumps(self.js, sort_keys=True, indent=4))
+			if self.encryption:
+				codecs.open(file, 'w', encoding = self.encoding).write(pad(self.des.encrypt(json.dumps(self.js, sort_keys=True, indent=4))))
+			else:
+				codecs.open(file, 'w', encoding = self.encoding).write(json.dumps(self.js, sort_keys=True, indent=4))
 		elif self.debug == False:
-			codecs.open(file, 'w', encoding = self.encoding).write(json.dumps(self.js))
+			if self.encryption:
+				codecs.open(file, 'w', encoding = self.encoding).write(pad(self.des.encrypt(json.dumps(self.js))))
+			else:
+				codecs.open(file, 'w', encoding = self.encoding).write(json.dumps(self.js))
 		return file
 
 	def add_section(self, name, default = None):
@@ -50,6 +75,11 @@ class parser:
 
 	def get_section(self, section):
 		return self.js[section]
+
+	def update(self, mode = 'r'):
+		self.save()
+		self.file = codecs.open(self.path, mode, encoding = self.encoding).read().replace('\n','')
+		return self.js
 
 	def js(self):
 		return self.js
