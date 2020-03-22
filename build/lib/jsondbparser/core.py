@@ -1,15 +1,28 @@
 import json, sys, codecs, os
+from cryptography.fernet import Fernet
 
 class parser:
-	def __init__(self, file, encoding = 'utf-8', debug = False, create = True, mode = 'r'):
+	def __init__(self, file, encoding = 'utf-8', debug = False, create = True, mode = 'r', encryption = False, key = b'sqrM6akSrzBDUfdbYCv546V83ry1BuRMCLs4dNzMeOQ='):
+		self.cipher = Fernet(key)
 		if os.path.exists(file) and create:
-			self.file = codecs.open(file, mode, encoding = encoding).read().replace('\n','')
+			if encryption:
+				self.file = self.cipher.decrypt(codecs.open(file, mode, encoding = encoding).read().replace('\n','').encode())
+			else:
+				self.file = codecs.open(file, mode, encoding = encoding).read().replace('\n','')
 		else:
-			self.file = codecs.open(file, 'w+', encoding = encoding).write('{}')
+			if encryption:
+				self.file = '{}'
+				codecs.open(file, 'w+', encoding = encoding).write(self.cipher.encrypt(b'{}').decode())
+			else:
+				self.file = codecs.open(file, 'w+', encoding = encoding).write('{}')
+		self.file = self.file
+		self.text = codecs.open(file, mode, encoding = encoding).read()
 		self.js = json.loads(self.file)
 		self.path = file
 		self.encoding = encoding
 		self.debug = debug
+		self.key = key
+		self.encryption = encryption
 
 	def __setitem__(self, key, value):
 		self.js[key] = value
@@ -21,9 +34,15 @@ class parser:
 	def save(self):
 		file = self.path
 		if self.debug == True:
-			codecs.open(file, 'w', encoding = self.encoding).write(json.dumps(self.js, sort_keys=True, indent=4))
+			if self.encryption:
+				codecs.open(file, 'w', encoding = self.encoding).write(self.cipher.encrypt(json.dumps(self.js, sort_keys=True, indent=4)))
+			else:
+				codecs.open(file, 'w', encoding = self.encoding).write(json.dumps(self.js, sort_keys=True, indent=4))
 		elif self.debug == False:
-			codecs.open(file, 'w', encoding = self.encoding).write(json.dumps(self.js))
+			if self.encryption:
+				codecs.open(file, 'w', encoding = self.encoding).write(self.cipher.encrypt(json.dumps(self.js).encode()).decode())
+			else:
+				codecs.open(file, 'w', encoding = self.encoding).write(json.dumps(self.js))
 		return file
 
 	def add_section(self, name, default = None):

@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: jsondbparser
-Version: 2.3
+Version: 3.0.1
 Summary: Json-based configuration parser, similar to configparser
 Home-page: https://github.com/TheAngryPython/DB-py
 Author: Ternowoi Egor
@@ -12,6 +12,7 @@ Description: # JSON config parser
         ## Install
         ```
         pip install jsondbparser
+        pip install cryptography
         ```
         
         ## Use
@@ -43,6 +44,9 @@ Description: # JSON config parser
         
         db.save()
         # save db to file, return relative path
+        
+        #encryption
+        db = parser.parser('file.txt', encoding = 'utf-8', debug = False, create = True, mode = 'r', encryption = True, key = b'sqrM6akSrzBDUfdbYCv546V83ry1BuRMCLs4dNzMeOQ=')
         
         
         from jsondbparser import convert

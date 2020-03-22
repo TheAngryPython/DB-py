@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
 	name="jsondbparser",
-	version='2.3',
+	version='3.0.1',
 	author="Ternowoi Egor",
 	author_email="annom2017@mail.ru",
 	description="Json-based configuration parser, similar to configparser",

@@ -1,33 +1,28 @@
 import json, sys, codecs, os
-from Crypto.Cipher import DES
-
-def pad(text):
-	text = text.encode()
-	while len(text) % 8 != 0:
-		text += b' '
-	return text
+from cryptography.fernet import Fernet
 
 class parser:
-	def __init__(self, file, encoding = 'utf-8', debug = False, create = True, mode = 'r', encryption = False, key = 'abcdefgh'):
-		self.des = DES.new(key, DES.MODE_ECB)
+	def __init__(self, file, encoding = 'utf-8', debug = False, create = True, mode = 'r', encryption = False, key = b'sqrM6akSrzBDUfdbYCv546V83ry1BuRMCLs4dNzMeOQ='):
+		self.cipher = Fernet(key)
 		if os.path.exists(file) and create:
 			if encryption:
-				self.file = self.des.decrypt(pad(codecs.open(file, mode, encoding = encoding).read().replace('\n','')))
+				self.file = self.cipher.decrypt(codecs.open(file, mode, encoding = encoding).read().replace('\n','').encode())
 			else:
 				self.file = codecs.open(file, mode, encoding = encoding).read().replace('\n','')
 		else:
 			if encryption:
-				self.file = self.des.decrypt(pad(codecs.open(file, 'w+', encoding = encoding).write(pad(self.des.encrypt('{}')))))
+				self.file = '{}'
+				codecs.open(file, 'w+', encoding = encoding).write(self.cipher.encrypt(b'{}').decode())
 			else:
 				self.file = codecs.open(file, 'w+', encoding = encoding).write('{}')
-		print(self.file)
-		self.file = self.file.decode("utf-8")
+		self.file = self.file
+		self.text = codecs.open(file, mode, encoding = encoding).read()
 		self.js = json.loads(self.file)
 		self.path = file
 		self.encoding = encoding
 		self.debug = debug
-		self.key = key[0:8]
-		seld.encryption = encryption
+		self.key = key
+		self.encryption = encryption
 
 	def __setitem__(self, key, value):
 		self.js[key] = value
@@ -40,12 +35,12 @@ class parser:
 		file = self.path
 		if self.debug == True:
 			if self.encryption:
-				codecs.open(file, 'w', encoding = self.encoding).write(pad(self.des.encrypt(json.dumps(self.js, sort_keys=True, indent=4))))
+				codecs.open(file, 'w', encoding = self.encoding).write(self.cipher.encrypt(json.dumps(self.js, sort_keys=True, indent=4)))
 			else:
 				codecs.open(file, 'w', encoding = self.encoding).write(json.dumps(self.js, sort_keys=True, indent=4))
 		elif self.debug == False:
 			if self.encryption:
-				codecs.open(file, 'w', encoding = self.encoding).write(pad(self.des.encrypt(json.dumps(self.js))))
+				codecs.open(file, 'w', encoding = self.encoding).write(self.cipher.encrypt(json.dumps(self.js).encode()).decode())
 			else:
 				codecs.open(file, 'w', encoding = self.encoding).write(json.dumps(self.js))
 		return file

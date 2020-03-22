@@ -4,7 +4,7 @@ Json-based configuration parser, similar to configparser
 ## Install
 ```
 pip install jsondbparser
-pip install pycryptodome
+pip install cryptography
 ```
 
 ## Use
@@ -36,6 +36,9 @@ db.update(mode = 'r')
 
 db.save()
 # save db to file, return relative path
+
+#encryption
+db = parser.parser('file.txt', encoding = 'utf-8', debug = False, create = True, mode = 'r', encryption = True, key = b'sqrM6akSrzBDUfdbYCv546V83ry1BuRMCLs4dNzMeOQ=')
 
 
 from jsondbparser import convert
