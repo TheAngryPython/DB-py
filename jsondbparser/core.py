@@ -17,6 +17,9 @@ class parser:
 	def __getitem__(self, key):
 		return self.js[key]
 
+	def __delitem__(self, key):
+		del self.js[key]
+
 	def save(self):
 		file = self.path
 		if self.debug == True:
