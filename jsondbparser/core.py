@@ -28,6 +28,9 @@ class parser:
 		self.js[key] = value
 		return self.js[key]
 
+	def __delitem__(self, key):
+		del self.js[key]
+		
 	def __getitem__(self, key):
 		return self.js[key]
 
